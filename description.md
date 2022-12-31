@@ -1,4 +1,4 @@
-Разработка телеграм-бота, который бы транслировал сообщения о статусе портала и доступности его отдельных элементов в корпоративном канале. </br> 
-Проверка и формирование сообщений осуществляются с помощью скрипта на языке Python (библиотека "Selenium"), который запускается на выделенном хостинге каждые 30 минт с помощью плвнировщика задач "CRON".
+Разработка телеграм-бота, который транслирует сообщения о статусе портала и доступности его отдельных элементов в специальном канале. </br> 
+Проверка портала и формирование сообщений осуществляются с помощью скрипта на языке Python (библиотека "selenium"), который запускается на выделенном хостинге каждые 30 минут с помощью планировщика задач "CRON".
  </br> 
- ыввы
+The development of telegram bot that broadcasts the messages about the status of the corporate portal and accessibility of its distinct elements to the special channel. The varification of the portal and construction of the messages are implemented through the script developed with Python (library «selenium») that is triggered on the hosting every 30 minutes by the task manager «CRON».
