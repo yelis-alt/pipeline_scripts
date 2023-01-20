@@ -156,7 +156,7 @@ def check_elements_again():
 log = int(pd.read_csv('./log.txt').columns[0])
 options = webdriver.ChromeOptions()
 #options.add_argument('headless')
-codec = Service('./yandexdriver.exe')
+codec = Service('../yandexdriver.exe')
 driver = webdriver.Chrome(service = codec, options=options)
 
 #Подготовка переменных
