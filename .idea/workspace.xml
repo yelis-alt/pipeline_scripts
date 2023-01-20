@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f280cd00-3f4a-4c9e-864b-d492ac429ac2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/telegram_bot/tp_checker.py" beforeDir="false" afterPath="$PROJECT_DIR$/telegram_bot/tp_checker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yandex_map_marks/yandex_map_ticker.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/yandex_map_marks/yandex_map_ticker.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +50,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1674199743733</updated>
-      <workItem from="1674199748142" duration="5341000" />
+      <workItem from="1674199748142" duration="5361000" />
     </task>
     <servers />
   </component>

@@ -194,5 +194,5 @@ for i in range(1):
         else:
             web_rpa().bot_message('still_down', history)
 
-#Закрытие браузера
+#Закрытие браузер
 driver.close()
