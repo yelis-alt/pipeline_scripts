@@ -193,3 +193,6 @@ for i in range(1):
             files().logize('0')
         else:
             web_rpa().bot_message('still_down', history)
+
+#Закрытие браузера
+driver.close()
