@@ -22,6 +22,7 @@ class files():
         for i in range(N):
             history.append(0)
 file = files()
+
 class web_rpa():
     #Функция ожидания загрузки страницы 15 секунд
     def waitForLoad(self, inputXPath):
@@ -153,6 +154,7 @@ class web_rpa():
         time.sleep(300)
         web_rpa().check_elements()
 web = web_rpa()
+
 #Считывание статуса предыдущей итерации
 log = int(pd.read_csv('./log.txt').columns[0])
 options = webdriver.ChromeOptions()
