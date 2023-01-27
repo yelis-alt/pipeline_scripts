@@ -7,8 +7,6 @@
     <list default="true" id="227f278d-24d2-4043-8e9d-a3f542201f72" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application_filler.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/application_filler.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../telegram_bot/tp_checker.py" beforeDir="false" afterPath="$PROJECT_DIR$/../telegram_bot/tp_checker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../yandex_map_marks/yandex_map_label.py" beforeDir="false" afterPath="$PROJECT_DIR$/../yandex_map_marks/yandex_map_label.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +52,7 @@
       <option name="presentableId" value="Default" />
       <updated>1674818561394</updated>
       <workItem from="1674818562866" duration="2823000" />
-      <workItem from="1674821598739" duration="3811000" />
+      <workItem from="1674821598739" duration="6300000" />
     </task>
     <servers />
   </component>
