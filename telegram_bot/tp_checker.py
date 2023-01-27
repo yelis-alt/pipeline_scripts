@@ -21,7 +21,7 @@ class files():
     def nulled(self, N):
         for i in range(N):
             history.append(0)
-
+file = files()
 class web_rpa():
     #Функция ожидания загрузки страницы 15 секунд
     def waitForLoad(self, inputXPath):
@@ -41,7 +41,7 @@ class web_rpa():
         if history[0] == 1: #Проверка доступности логина
             #Авторизация
             try:
-                web_rpa().waitForLoad('//input[@id="workplaceTopForm:j_mail_login"]')
+                web.waitForLoad('//input[@id="workplaceTopForm:j_mail_login"]')
                 login_field = driver.find_element('xpath', '//input[@id="workplaceTopForm:j_mail_login"]')
                 login_field.send_keys('211714@edu.fa.ru')
                 password_field = driver.find_element('xpath', '//input[@id="workplaceTopForm:j_password"]')
@@ -54,12 +54,12 @@ class web_rpa():
             if history[1] == 1: #Проверка успешности авторизации
                 #Элементы личного кабинета
                 try:
-                    web_rpa().waitForLoad('//button[@id="workplaceTopForm:buttonLK"]')
+                    web.waitForLoad('//button[@id="workplaceTopForm:buttonLK"]')
                     name_field = driver.find_element('xpath', '//button[@id="workplaceTopForm:buttonLK"]')
                     name_field.click()
                     private_office = driver.find_element('xpath', '//a[@id="workplaceTopForm:j_idt661"]')
                     private_office.click()
-                    web_rpa().waitForLoad('//a[contains(text(), "Заявки и обращения")]')
+                    web.waitForLoad('//a[contains(text(), "Заявки и обращения")]')
                     po_elements = ['//a[contains(text(), "Заявки и обращения")]',
                                    '//a[contains(text(), "Опросы")]',
                                    '//a[contains(text(), "Договоры")]',
@@ -78,13 +78,13 @@ class web_rpa():
                         try:
                             private_office_el = driver.find_element('xpath', po_elements[i])
                             private_office_el.click()
-                            web_rpa().waitForLoad(po_waits[i])
+                            web.waitForLoad(po_waits[i])
                             time.sleep(2)
                             history.append(1)
                         except:
                             history.append(0)
                 except:
-                    files().nulled(num_el-5)
+                    file.nulled(num_el-5)
                 #Калькуляторы:
                 calculators = ['//span[contains(text(), "Калькулятор необходимой мощности")]',
                                '//span[contains(text(), "Калькулятор стоимости установки приборов учёта")]',
@@ -104,9 +104,9 @@ class web_rpa():
                     except:
                         history.append(0)
             else:
-                files().nulled(num_el-2)
+                file.nulled(num_el-2)
         else:
-            files().nulled(num_el-1)
+            file.nulled(num_el-1)
 
     #Функция формирвоания сообщения бота
     def bot_message(self, status, history):
@@ -151,8 +151,8 @@ class web_rpa():
     def check_elements_again(self):
         history = []
         time.sleep(300)
-        web_rpa().check_elements()
-
+        web.check_elements()
+web = web_rpa()
 #Считывание статуса предыдущей итерации
 log = int(pd.read_csv('./log.txt').columns[0])
 options = webdriver.ChromeOptions()
@@ -174,25 +174,25 @@ code = int(re.search(r"\[([A-Za-z0-9_]+)]",
 #Проверка доступности страницы и её элементов
 for i in range(1):
     if code == 200:
-        web_rpa().check_elements()
+        web.check_elements()
         if (sum(history[0:2]) == 2) & (sum(history[2::]) == 0): #на случай моментного сбоя
             try:
-                web_rpa().check_elements_again() #задержка 5 минут
+                web.check_elements_again() #задержка 5 минут
             except:
-                web_rpa().bot_message('down', history)
-                files().logize('0')
+                web.bot_message('down', history)
+                file.logize('0')
                 break
         if log == 0:
-            web_rpa().bot_message('up', history)
-            files().logize('1')
+            web.bot_message('up', history)
+            file.logize('1')
         else:
-            web_rpa().bot_message('still_up', history)
+            web.bot_message('still_up', history)
     else:
         if log == 1:
-            web_rpa().bot_message('down', history)
-            files().logize('0')
+            web.bot_message('down', history)
+            file.logize('0')
         else:
-            web_rpa().bot_message('still_down', history)
+            web.bot_message('still_down', history)
 
 #Закрытие браузера
 driver.close()
