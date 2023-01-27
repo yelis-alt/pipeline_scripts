@@ -10,11 +10,11 @@ import time
 import os
 
 class web_rpa():
-    #Функция ожидания появления элемента
+    #Метод ожидания появления элемента
     def waitForLoad(self, inputXPath):
         Wait = WebDriverWait(driver, 60)
         Wait.until(EC.element_to_be_clickable((By.XPATH, inputXPath)))
-    #Функция проверки существования элемента
+    #Метод проверки существования элемента
     def checkExistence(self, inputXPath):
         try:
             check = driver.find_element('xpath', inputXPath)
