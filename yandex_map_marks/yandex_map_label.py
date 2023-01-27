@@ -21,6 +21,7 @@ class web_rpa():
         except:
             return False
         return True
+web = web_rpa()
 
 #Формирование драйвера
 options = webdriver.ChromeOptions()
@@ -38,7 +39,7 @@ time.sleep(2)
 opens = driver.find_element('xpath', '//span[@class="button__text" and text()="Открыть карту"]')
 opens.click()
 waited_element = '//span[@class="button__text" and text()="К импорту →"]'
-web_rpa().waitForLoad(waited_element)
+web.waitForLoad(waited_element)
 
 #Загрузка файла с координатами
 xpaths = [waited_element,
@@ -53,7 +54,7 @@ time.sleep(3)
 
 #Перекрашивание добавленных точек
 ids = f'//div[contains(@data-id, "_{start}")]'
-while web_rpa().checkExistence(ids):
+while web.checkExistence(ids):
     xpaths = [ids,
               '(//span[@class="icon select__tick"])[4]',
               '//div[@class="menu__item menu__item_theme_colors menu__item_index_7 i-bem menu__item_js_inited"]']
