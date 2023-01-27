@@ -17,19 +17,19 @@ class files():
             pass
             f.write(num)
 
-    # Функция записи недоступных элементов в массив
+    # Метод записи недоступных элементов в массив
     def nulled(self, N):
         for i in range(N):
             history.append(0)
 file = files()
 
 class web_rpa():
-    #Функция ожидания загрузки страницы 15 секунд
+    #Метод ожидания загрузки страницы 15 секунд
     def waitForLoad(self, inputXPath):
         Wait = WebDriverWait(driver, 15)
         Wait.until(EC.element_to_be_clickable((By.XPATH, inputXPath)))
 
-    #Функция проверки доступности элементов
+    #Метод проверки доступности элементов
     def check_elements(self):
         driver.get(url)
         #Вход в личный кабинет
@@ -109,7 +109,7 @@ class web_rpa():
         else:
             file.nulled(num_el-1)
 
-    #Функция формирвоания сообщения бота
+    #Метод формирвоания сообщения бота
     def bot_message(self, status, history):
         now = datetime.datetime.now()
         day = now.date().strftime("%d/%m/%Y").replace('/', '.')
@@ -148,7 +148,7 @@ class web_rpa():
                 text = text.replace(': 1', ': доступно').replace(': 0', ': не доступно')
         print(text)
 
-    #Функция повторения проверки
+    #Метод повторения проверки
     def check_elements_again(self):
         history = []
         time.sleep(300)
