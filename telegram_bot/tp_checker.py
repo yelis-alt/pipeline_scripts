@@ -41,7 +41,7 @@ class web_rpa():
         if history[0] == 1: #Проверка доступности логина
             #Авторизация
             try:
-                web.waitForLoad('//input[@id="workplaceTopForm:j_mail_login"]')
+                web_rpa().waitForLoad('//input[@id="workplaceTopForm:j_mail_login"]')
                 login_field = driver.find_element('xpath', '//input[@id="workplaceTopForm:j_mail_login"]')
                 login_field.send_keys('211714@edu.fa.ru')
                 password_field = driver.find_element('xpath', '//input[@id="workplaceTopForm:j_password"]')
@@ -54,12 +54,12 @@ class web_rpa():
             if history[1] == 1: #Проверка успешности авторизации
                 #Элементы личного кабинета
                 try:
-                    web.waitForLoad('//button[@id="workplaceTopForm:buttonLK"]')
+                    web_rpa().waitForLoad('//button[@id="workplaceTopForm:buttonLK"]')
                     name_field = driver.find_element('xpath', '//button[@id="workplaceTopForm:buttonLK"]')
                     name_field.click()
                     private_office = driver.find_element('xpath', '//a[@id="workplaceTopForm:j_idt661"]')
                     private_office.click()
-                    web.waitForLoad('//a[contains(text(), "Заявки и обращения")]')
+                    web_rpa().waitForLoad('//a[contains(text(), "Заявки и обращения")]')
                     po_elements = ['//a[contains(text(), "Заявки и обращения")]',
                                    '//a[contains(text(), "Опросы")]',
                                    '//a[contains(text(), "Договоры")]',
@@ -78,7 +78,7 @@ class web_rpa():
                         try:
                             private_office_el = driver.find_element('xpath', po_elements[i])
                             private_office_el.click()
-                            web.waitForLoad(po_waits[i])
+                            web_rpa().waitForLoad(po_waits[i])
                             time.sleep(2)
                             history.append(1)
                         except:
@@ -98,7 +98,7 @@ class web_rpa():
                         cost_field.click()
                         calculator_type = driver.find_element('xpath', calculators[i])
                         calculator_type.click()
-                        web_rpa.waitForLoad(calculator_checks[i])
+                        web_rpa().waitForLoad(calculator_checks[i])
                         history.append(1)
                         time.sleep(2)
                     except:
@@ -151,7 +151,7 @@ class web_rpa():
     def check_elements_again(self):
         history = []
         time.sleep(300)
-        web.check_elements()
+        web_rpa().check_elements()
 web = web_rpa()
 #Считывание статуса предыдущей итерации
 log = int(pd.read_csv('./log.txt').columns[0])
