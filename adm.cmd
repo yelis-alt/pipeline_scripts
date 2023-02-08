@@ -1,0 +1,1 @@
+runas /user:OTM\eliseev-test cmd
