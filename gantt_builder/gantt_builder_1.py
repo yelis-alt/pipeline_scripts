@@ -5,11 +5,10 @@ import pandas as pd
 
 #Подготовка переменных
 works = []
-inds = []
-order = []
+ind = []
 path = './plan.xlsx'
 
-#Изъятие жлементов иерархии этапов и заданий
+#Изъятие элементов иерархии этапов и заданий
 plan = pd.read_excel(path)
 names = ['Этапы договора', 'Название']
 types = plan.columns[plan.shape[1]-16: plan.shape[1]].to_list()
@@ -44,16 +43,18 @@ for stage in stages:
                 task = " ".join(stage.split(' ')[0:2]) + '/' + \
                        part.split(' ')[0] + '/' + \
                        work
-                row = dict(Задание = task, Начало = start, Конец = finish)
-                order.append(task)
-                inds.append(row)
+                row = dict(Задание = task,
+                           Начало = start,
+                           Конец = finish)
+                ind.append(row)
 
 #Построение диаграммы Ганта
-inds.sort(key=lambda item:item['Начало'], reverse = True)
-job = pd.DataFrame(inds)
-fig = px.timeline(job, x_start="Начало", x_end="Конец", y="Задание",
-                  #category_orders={'Задание': order},
-                  height = 5000)
+ind.sort(key=lambda item:item['Начало'], reverse = True)
+job = pd.DataFrame(ind)
+fig = px.timeline(job, x_start="Начало",
+                       x_end="Конец",
+                       y="Задание",
+                       height = 5000)
 fig.update_layout(
                   xaxis_tickformat = '%d.%m.%y',
                   yaxis_title=None,
@@ -64,4 +65,4 @@ fig.update_xaxes(
                 )
 
 #Выгрузка диаграммы Ганта
-fig.write_html("./gantt_diagram.html")
+fig.write_html("./gantt_chart_1.html")
