@@ -11,10 +11,10 @@ display: inline-block;
 position: relative;
 }
 .treegrid-expanded .treegrid-expander {
-background-image: url(../img/collapse.png);
+background-image: url(./img/collapse.png);
 cursor: pointer;
 }
 .treegrid-collapsed .treegrid-expander {
-background-image: url(../img/expand.png);
+background-image: url(./img/expand.png);
 cursor: pointer;
 }
