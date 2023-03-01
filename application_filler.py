@@ -49,15 +49,15 @@ for message in messages:
 #Формирование текстовых полей для заполнения
 symbols = ['!', '#', '$', '%', '+', '&', '@']
 for k, string in enumerate(strings):
-    string =  string[50:]
+    string = string[50:]
     date_start = text.number_pos(string)
     fio = string[:date_start]
     surname, name, patronymic = fio.split()
 
     #Формирование логина
     login_base = translit(surname, 'ru',  reversed=True).lower()
-    login_init1 =  translit(name[0], 'ru',  reversed=True).lower()
-    login_init2 =  translit(patronymic[0], 'ru',  reversed=True).lower()
+    login_init1 = translit(name[0], 'ru',  reversed=True).lower()
+    login_init2 = translit(patronymic[0], 'ru',  reversed=True).lower()
     login = login_base + '-' + login_init1 + login_init2
     login = login.replace("'", '')
 

@@ -25,7 +25,7 @@ web = web_rpa()
 
 #Формирование драйвера
 options = webdriver.ChromeOptions()
-codec = Service('../yandexdriver.exe')
+codec = Service('./yandexdriver.exe')
 driver = webdriver.Chrome(service = codec, options=options)
 
 #Подготовка к действиям
