@@ -157,7 +157,8 @@ header = '<!doctype html>' \
                 '.treegrid-expander {background-color: red;cursor: pointer;}'\
          '</style>'\
          '</head>' \
-         '<body style>' \
+         '<body style="background-color: azure;">' \
+         '<font face="Arial">'\
          '<table>'\
          '<tbody>'\
          '<tr>'\
@@ -173,6 +174,7 @@ header = '<!doctype html>' \
          '</tr>'
 footer = '</tbody>'\
          '</table>' \
+         '</font>'\
          '</td>'\
          '</tr>'\
          '</tbody>'\
