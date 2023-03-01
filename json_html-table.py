@@ -7,25 +7,33 @@ import os
 warnings.filterwarnings('ignore')
 
 #Функция изъятия первых n слов
-def cut_words(df, col, n):
+def word_cut(df, col, n):
     new = df[col].str.split(' ')
     new = new.str[0:n]
     new = new.apply(lambda x: ' '.join(x))
     return new
 
+#Методы для формирования html-таблицы
 class html_formatter():
-    def expandable(self, grandparent, title, row, parent, expand, ids, style, collapse):
+    def tr_expand(self, grandparent, parent, expand, ids, style, collapse, title, n_items, row):
         row_append = f'<tr class="treegrid-{grandparent}{parent}{expand}" id="{ids}" {style}>' \
                      f'<td>' \
-                     f'<span {collapse} </span>'\
+                     f'<span {collapse} </span>' \
                      f'{title}' \
-                     f'</td>' \
-                     f'<td>{row[0]}</td>' \
-                     f'<td>{row[1]}</td>' \
-                     f'<td>{row[2]}</td>' \
-                     f'<td>{row[3]}</td>' \
-                     f'</tr>'
+                     f'</td>'
+        td = ''
+        for n in range(n_items):
+            td += f'<td>{row[n]}</td>'
+        row_append += td + \
+                      f'</tr>'
         return row_append
+
+    def tr_build(self, all_cols):
+        tr = '<tr id="tree-head-1">'
+        for tag in all_cols:
+            tr += '<th>' + tag + '</th>'
+        tr += '</tr>'
+        return tr
 html_formatter = html_formatter()
 
 #Открытие json
@@ -76,7 +84,7 @@ table = table.drop('tasks', axis = 1)
 table['decomposition_1'] = np.where(table['stage']==' ',
                                     'Задачи договора',
                                     'Этапы договора')
-table['document'] = np.where(cut_words(table, 'function', 1).str[:-1].str.isnumeric()==True,
+table['document'] = np.where(word_cut(table, 'function', 1).str[:-1].str.isnumeric()==True,
                              table['function'],
                              ' ')
 table['function'] = np.where(table['document'] != ' ',
@@ -107,9 +115,12 @@ col_order = ['project', 'decomposition_1', 'stage',
              'decomposition_2', 'decomposition_3', 'task',
              'role_function', 'duration_function', 'start_function',
              'finish_function']
+
+pos = col_order.index('task') #вычисление числа уровней
 table = table[col_order]
-for i in range(5):
+for i in range(pos):
     level = list(set(map(tuple,table.iloc[:,:(1+i)].values.tolist())))
+    length = table.shape[1] - len(level[0])
     length = table.shape[1] - len(level[0])
     for j in level:
         row = list(j)
@@ -118,8 +129,8 @@ for i in range(5):
                              ignore_index=True)
 
 #Составление сводной таблицы
-pivot = table.pivot_table(index = col_order[:6],
-                          values = col_order[6:],
+pivot = table.pivot_table(index = col_order[:(pos+1)],
+                          values = col_order[(pos+1):],
                           aggfunc ='sum')
 pivot = pivot[~pivot.index.duplicated(keep='first')]
 pivot = pivot[['duration_function', 'role_function',
@@ -135,12 +146,13 @@ pivot = pd.read_excel('./data.xlsx').replace(np.nan, ' ')
 os.remove('./data.xlsx')
 
 #Добавление отступов
-expands = list(pivot.columns)[:6]
+expands = list(pivot.columns)[:(pos+1)]
 for k, col in enumerate(expands):
     pivot[col] = np.where(pivot[col] == ' ',
                                         ' ',
                                         '__'*k + pivot[col].astype(str))
 #html-конвертация
+n_items = pivot.shape[1] - pos - 1
 header = '<!doctype html>' \
          '<html>' \
          '<head>' \
@@ -260,63 +272,65 @@ footer = '</tbody>'\
          '</html>'
 body = ''
 length = pivot.shape[0]
-level_memory = {
-                0: 0, 1: 0, 2: 0,
-                3: 0, 4: 0, 5: 0
-               }
+
+level_memory = {} #создание словаря для позиций
+keys = range(pos+1)
+values = [0]*(pos+1)
+for i in keys:
+    level_memory[i] = values[i]
 for i in range(length):
    grandparent = i + 1
-   #формирование строки таблицы
-   row_ = list(pivot.iloc[i, :])
-   for k, pos in enumerate(row_):
-       if pos!= ' ':
+
+   row_ = list(pivot.iloc[i, :]) #формирование строки таблицы
+   for k, ind in enumerate(row_):
+       if ind != ' ':
            level = k + 1
            break
    title = [x for x in row_ if x.isspace() == False]
-   if (level != 6) & (len(title) == 1):
-       row = [' ']*(5-len(title))
+   if (level != (pos+1)) & (len(title) == 1):
+       row = [' ']*(pos-len(title))
    else:
-       row = title[1:] + [' ']*(5-len(title))
+       row = title[1:] + [' ']*(pos-len(title))
        title = [title[0]]
-   #проверка уровня следующей строки таблицы
-   if i + 1 != length:
+
+   if i + 1 != length: #проверка уровня следующей строки таблицы
         row_next_ = list(pivot.iloc[i+1, :])
-        for k_next, pos_next in enumerate(row_next_):
-           if pos_next != ' ':
+        for k_next, ind_next in enumerate(row_next_):
+           if ind_next != ' ':
                level_next = k_next + 1
                break
    else:
         level_next = level
-   #упорядочивание элементов разворачивания
-   if level_next <= level:
+
+   if level_next <= level: #упорядочивание элементов разворачивания
       expand = ''
       collapse = 'class="treegrid-expander">'
-      #формирование зависимостей разворачивания
-      parent = f' treegrid-parent-{previous}'
+
+      parent = f' treegrid-parent-{previous}' #формирование зависимостей разворачивания
    else:
        level_count = title[0].count('__')
        expand = ' treegrid-collapsed'
        collapse = 'class="treegrid-expander treegrid-expander-collapsed">'
-       #формирование зависимостей разворачивания
-       if level_count == 0:
+
+       if level_count == 0: #формирование зависимостей разворачивания
            parent = f' treegrid-parent-{grandparent}'
        else:
            parent = f' treegrid-parent-{level_memory[level_count-1]}'
        level_memory[level_count] = grandparent
        previous = grandparent
-   #установка свойств разворачивания
-   if level == 1:
+
+   if level == 1: #установка свойств разворачивания
        style=''
        parent = ''
    else:
        style = 'style="display: none;"'
    ids = grandparent - 1
-   #добавление строк в таблицу
-   body += html_formatter.expandable(grandparent, title[0], row,
-                                     parent, expand, ids, style,
-                                     collapse)
-#формирование полной таблицы
-html_doc = header + body + footer
+
+   body += html_formatter.tr_expand(grandparent, parent, expand, #добавление строк в таблицу
+                                    ids, style, collapse,
+                                    title[0], n_items, row)
+
+html_doc = header + body + footer #формирование полной таблицы
 
 #Формирование html-таблицы
 with open('./table.html', 'w', newline='', encoding="utf-8") as file:
