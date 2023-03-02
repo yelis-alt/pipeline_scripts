@@ -13,7 +13,7 @@ import re
 class files():
     #Логирование статуса вебсайта
     def logize(self, num):
-        with open("./log.txt",'w') as f:
+        with open("./resources/log.txt",'w') as f:
             pass
             f.write(num)
 
@@ -156,10 +156,10 @@ class web_rpa():
 web = web_rpa()
 
 #Считывание статуса предыдущей итерации
-log = int(pd.read_csv('./log.txt').columns[0])
+log = int(pd.read_csv('./resources/log.txt').columns[0])
 options = webdriver.ChromeOptions()
 #options.add_argument('headless')
-codec = Service('./yandexdriver.exe')
+codec = Service('./resources/yandexdriver.exe')
 driver = webdriver.Chrome(service = codec, options=options)
 
 #Подготовка переменных

@@ -25,13 +25,13 @@ web = web_rpa()
 
 #Формирование драйвера
 options = webdriver.ChromeOptions()
-codec = Service('./yandexdriver.exe')
+codec = Service('./resources/yandexdriver.exe')
 driver = webdriver.Chrome(service = codec, options=options)
 
 #Подготовка к действиям
 start = 83 ##начальная метка закраски
 url = 'https://yandex.ru/map-constructor'
-path = os.path.abspath("./zas.xlsx").replace('\x5c', '//')
+path = os.path.abspath("./resources/dots.xlsx").replace('\x5c', '//')
 driver.get(url)
 time.sleep(2)
 

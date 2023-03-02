@@ -37,7 +37,7 @@ class html_formatter():
 html_formatter = html_formatter()
 
 #Открытие json
-with open('./data.json') as fp:
+with open('./resources/data.json') as fp:
     data = json.load(fp)
 
 #1-ый уровень
@@ -141,9 +141,9 @@ pivot['role_function'] = np.where((pivot['role_function'] == ' ') &
                       pivot['role_function'])
 
 #Сброс индекса
-pivot.to_excel('./data.xlsx')
-pivot = pd.read_excel('./data.xlsx').replace(np.nan, ' ')
-os.remove('./data.xlsx')
+pivot.to_excel('./data1.xlsx')
+pivot = pd.read_excel('./data1.xlsx').replace(np.nan, ' ')
+#os.remove('./data.xlsx')
 
 #Добавление отступов
 expands = list(pivot.columns)[:(pos+1)]
