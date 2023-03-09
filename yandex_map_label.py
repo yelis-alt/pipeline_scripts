@@ -8,7 +8,7 @@ import pyperclip
 import pyautogui
 import time
 import os
-
+ 
 class web_rpa():
     #Метод ожидания появления элемента
     def waitForLoad(self, inputXPath):
