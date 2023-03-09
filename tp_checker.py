@@ -9,7 +9,7 @@ import requests
 import datetime
 import time
 import re
-
+ 
 class files():
     #Логирование статуса вебсайта
     def logize(self, num):
